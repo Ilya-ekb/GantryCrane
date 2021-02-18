@@ -1,11 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Assets.Scripts.MotorScripts;
 using UnityEngine;
 
 public class TestScript : MonoBehaviour
 {
     public MotorController moving;
     public MotorController sliding;
+    [Range(-1f, 1f)]
+    public float signal = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,11 +16,11 @@ public class TestScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKey(KeyCode.D))
         {
             moving.Working(-1);
         }
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKey(KeyCode.A))
         {
             moving.Working(1);
         }
@@ -27,11 +28,11 @@ public class TestScript : MonoBehaviour
         {
             moving.Working(0);
         }
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKey(KeyCode.W))
         {
             sliding.Working(1);
         }
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKey(KeyCode.S))
         {
             sliding.Working(-1);
         }
@@ -39,5 +40,6 @@ public class TestScript : MonoBehaviour
         {
             sliding.Working(0);
         }
+        moving.Working(signal);
     }
 }
