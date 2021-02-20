@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+
+using UnityEngine;
 
 namespace Assets.Scripts.MotorScripts
 {
@@ -7,16 +9,21 @@ namespace Assets.Scripts.MotorScripts
         [Header("Управлеяемый с мотором объект:")]
         [Tooltip("Ссылка на Transform:")]
         [SerializeField] private Transform controlingObject;
+
         [Tooltip("Масса объекта")]
         [SerializeField] private float massControlingObject;
+
         [Tooltip("Инерция(для расчета замедления)")]
         [SerializeField] private float inertia;
+
         [Header("Ось перемещения:")]
         [Tooltip("Ось перемещения, вдоль которой будет двигаться управляемый объект")]
         [SerializeField] private Axis axis = Axis.axis_X;
+
         [Header("Маскимальная скорость:")]
         [Tooltip("Маскимальная скорость управляемого объекта")]
         [SerializeField] private float maxSpeed;
+
         [Range(-1, 1)]
         [Header("Управляющий сигнал:")]
         [Tooltip("Приходящий управляющий сигнал на мотор, изменяется от -1 до 1, где 0 - состояние покоя")]
@@ -25,9 +32,12 @@ namespace Assets.Scripts.MotorScripts
         [Header("Экстремум перемещения:")]
         [Tooltip("Ограничение максимальной и минимальной точек движения объекта вдоль выбранной оси:")]
         [SerializeField] private int extremum;
+
         [Tooltip("Включить для дебага экстремумов")]
         [SerializeField] private bool debug;
+
         private Vector3 currentVector = Vector3.zero;
+        private float prevSignal;
         private float adjPoint0;
         private float adjPoint1;
 
@@ -40,12 +50,7 @@ namespace Assets.Scripts.MotorScripts
             if (controlingObject)
             {
                 controlingObject.position += currentVector * ComputeVelocity(signal) * Time.deltaTime;
-                if (axis == Axis.axis_X)
-                { controlingObject.position = new Vector3(AdjPosition(controlingObject.position.x), controlingObject.position.y, controlingObject.position.z); }
-                if (axis == Axis.axis_Y)
-                { controlingObject.position = new Vector3(controlingObject.position.x, AdjPosition(controlingObject.position.y), controlingObject.position.z); }
-                if (axis == Axis.axis_Z)
-                { controlingObject.position = new Vector3(controlingObject.position.x, controlingObject.position.y, AdjPosition(controlingObject.position.z)); }
+                controlingObject.position = AdjPosition(controlingObject.position, axis, adjPoint0, adjPoint1);
             }
             else
             {
@@ -60,28 +65,18 @@ namespace Assets.Scripts.MotorScripts
         {
             if (controlingObject)
             {
-                if (axis == Axis.axis_X)
-                {
-                    currentVector = controlingObject.right;
-                    adjPoint0 = controlingObject.position.x - extremum;
-                    adjPoint1 = controlingObject.position.x + extremum;
-                }
-                if (axis == Axis.axis_Y)
-                {
-                    currentVector = controlingObject.up;
-                    adjPoint0 = controlingObject.position.y - extremum;
-                    adjPoint1 = controlingObject.position.y + extremum;
-                }
-                if (axis == Axis.axis_Z)
-                {
-                    currentVector = controlingObject.forward;
-                    adjPoint0 = controlingObject.position.z - extremum;
-                    adjPoint1 = controlingObject.position.z + extremum;
-                }
+                currentVector[(int)axis] = 1.0f;
+                adjPoint0 = controlingObject.position[(int)axis] - extremum;
+                adjPoint1 = controlingObject.position[(int)axis] + extremum;
             }
         }
 
-        private float AdjPosition(float value)  => Mathf.Clamp(value, adjPoint0, adjPoint1);
+        private Vector3 AdjPosition(Vector3 position, Axis axis, float min, float max)
+        {
+            position = controlingObject.position;
+            position[(int)axis] = Mathf.Clamp(position[(int)axis], min, max);
+            return position;
+        }
 
         private void OnDrawGizmos()
         {                                                          
@@ -91,25 +86,22 @@ namespace Assets.Scripts.MotorScripts
                 if (controlingObject && debug)
                 {
                     InitialSettings();
-                    Vector3 point0, point1; point1 = point0 = Vector3.zero;
+                    Vector3 point0, point1;
+                    point1 = point0 = controlingObject.position;
                     if (axis == Axis.axis_X)
                     {
-                        point0 = new Vector3(adjPoint0, controlingObject.position.y, controlingObject.position.z);
-                        point1 = new Vector3(adjPoint1, controlingObject.position.y, controlingObject.position.z);
                         Gizmos.color = Color.red;
                     }
                     if (axis == Axis.axis_Y)
                     {
-                        point0 = new Vector3(controlingObject.position.x, adjPoint0, controlingObject.position.z);
-                        point1 = new Vector3(controlingObject.position.x, adjPoint1, controlingObject.position.z);
                         Gizmos.color = Color.green;
                     }
                     if (axis == Axis.axis_Z)
                     {
-                        point0 = new Vector3(controlingObject.position.x, controlingObject.position.y, adjPoint0);
-                        point1 = new Vector3(controlingObject.position.x, controlingObject.position.y, adjPoint1);
                         Gizmos.color = Color.blue;
                     }
+                    point0[(int)axis] = adjPoint0;
+                    point1[(int)axis] = adjPoint1;
                     Gizmos.DrawLine(point0, point1);
                     Gizmos.DrawSphere(point0, 1f);
                     Gizmos.DrawSphere(point1, 1f);
@@ -119,7 +111,6 @@ namespace Assets.Scripts.MotorScripts
 #endif
         }
 
-        float prevSignal = .0f;
         /// <summary>
         /// Расчет текущей скорости
         /// </summary>
