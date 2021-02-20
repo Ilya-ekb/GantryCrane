@@ -35,11 +35,6 @@ namespace Assets.Scripts.InputSystem
             }
         }
 
-        private void OnverlapBegin()
-        {
-
-        }
-
         /// <summary>
         /// Начало взаимодействия с предметом
         /// </summary>
@@ -58,6 +53,13 @@ namespace Assets.Scripts.InputSystem
                         attachedObject?.InteractableBegin(Camera.main.ScreenPointToRay(Input.mousePosition).GetPoint(3));
                     }
                 }
+            }
+            else
+            {
+                var ind = little_crunch(attachedObject.Axis);
+                var attachedPos = transform.position;
+                attachedPos[ind] = Camera.main.ScreenPointToRay(Input.mousePosition).GetPoint(3)[ind];
+                attachedObject.InteractableUpdate(attachedPos);
             }
         }
 

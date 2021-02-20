@@ -199,6 +199,7 @@ GameObject:
   m_Component:
   - component: {fileID: 320430562}
   - component: {fileID: 320430563}
+  - component: {fileID: 320430564}
   m_Layer: 0
   m_Name: ControllerFB
   m_TagString: Untagged
@@ -242,6 +243,60 @@ MonoBehaviour:
   OnAngleUpdate:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &320430564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 320430561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec325a525e77c034388a3ab10520dfc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ColorHiglightA:
+    r: 0
+    g: 0
+    b: 1
+    a: 1
+  ColorFromArrayy:
+  - r: 1
+    g: 0.92156863
+    b: 0.015686275
+    a: 1
+  - r: 0
+    g: 0
+    b: 1
+    a: 1
+  - r: 1
+    g: 0
+    b: 1
+    a: 1
+  - r: 0
+    g: 1
+    b: 1
+    a: 1
+  - r: 0
+    g: 1
+    b: 0
+    a: 1
+  - r: 1
+    g: 0
+    b: 0
+    a: 1
+  - r: 1
+    g: 1
+    b: 1
+    a: 1
+  mult: 2
+  widthH: 0.01
+  isOff: 1
+  OnlyOnce: 1
+  mnozitelOutlineVR: 0.1
+  shaderOutline: {fileID: 0}
+  allMeshes: []
+  highlightArray: []
 --- !u!1 &576902944
 GameObject:
   m_ObjectHideFlags: 0
@@ -722,6 +777,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1242245212}
   - component: {fileID: 1242245213}
+  - component: {fileID: 1242245214}
   m_Layer: 0
   m_Name: ControllerUD
   m_TagString: Untagged
@@ -765,6 +821,60 @@ MonoBehaviour:
   OnAngleUpdate:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1242245214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1242245211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec325a525e77c034388a3ab10520dfc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ColorHiglightA:
+    r: 0
+    g: 0
+    b: 1
+    a: 1
+  ColorFromArrayy:
+  - r: 1
+    g: 0.92156863
+    b: 0.015686275
+    a: 1
+  - r: 0
+    g: 0
+    b: 1
+    a: 1
+  - r: 1
+    g: 0
+    b: 1
+    a: 1
+  - r: 0
+    g: 1
+    b: 1
+    a: 1
+  - r: 0
+    g: 1
+    b: 0
+    a: 1
+  - r: 1
+    g: 0
+    b: 0
+    a: 1
+  - r: 1
+    g: 1
+    b: 1
+    a: 1
+  mult: 2
+  widthH: 0.01
+  isOff: 1
+  OnlyOnce: 1
+  mnozitelOutlineVR: 0.1
+  shaderOutline: {fileID: 0}
+  allMeshes: []
+  highlightArray: []
 --- !u!1 &1259651996
 GameObject:
   m_ObjectHideFlags: 0
@@ -824,7 +934,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 307
 --- !u!1 &1377618727
 GameObject:
   m_ObjectHideFlags: 0
@@ -835,6 +945,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1377618728}
   - component: {fileID: 1377618729}
+  - component: {fileID: 1377618730}
   m_Layer: 0
   m_Name: ControllerLR
   m_TagString: Untagged
@@ -878,6 +989,60 @@ MonoBehaviour:
   OnAngleUpdate:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1377618730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1377618727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec325a525e77c034388a3ab10520dfc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ColorHiglightA:
+    r: 0
+    g: 0
+    b: 1
+    a: 1
+  ColorFromArrayy:
+  - r: 1
+    g: 0.92156863
+    b: 0.015686275
+    a: 1
+  - r: 0
+    g: 0
+    b: 1
+    a: 1
+  - r: 1
+    g: 0
+    b: 1
+    a: 1
+  - r: 0
+    g: 1
+    b: 1
+    a: 1
+  - r: 0
+    g: 1
+    b: 0
+    a: 1
+  - r: 1
+    g: 0
+    b: 0
+    a: 1
+  - r: 1
+    g: 1
+    b: 1
+    a: 1
+  mult: 2
+  widthH: 0.01
+  isOff: 1
+  OnlyOnce: 1
+  mnozitelOutlineVR: 0.1
+  shaderOutline: {fileID: 0}
+  allMeshes: []
+  highlightArray: []
 --- !u!1 &1580444808
 GameObject:
   m_ObjectHideFlags: 0
