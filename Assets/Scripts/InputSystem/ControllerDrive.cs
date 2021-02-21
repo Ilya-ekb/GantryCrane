@@ -184,7 +184,7 @@ namespace Assets.Scripts.InputSystem
 
         private IEnumerator ToStartRotation()
         {
-            while(Mathf.Abs(outAngle) > 0.01f)
+            while(Mathf.Abs(outAngle) > 0.02f)
             {
                 outAngle = Mathf.Lerp(outAngle, 0, 0.1f);
                 Refresh();
@@ -193,6 +193,7 @@ namespace Assets.Scripts.InputSystem
             }
             outAngle = .0f;
             signal = .5f;
+            OnInteractableUpdate.Invoke();
         }
     }
 
