@@ -23,22 +23,10 @@ namespace Assets.Scripts.InputSystem
 
         }
 
-        private void Update()
-        {
-            if (Input.GetMouseButton(0))
-            {
-                OnAttach();
-            }
-            if (Input.GetMouseButtonUp(0))
-            {
-                OnDetach();
-            }
-        }
-
         /// <summary>
         /// Начало взаимодействия с предметом
         /// </summary>
-        private void OnAttach()
+        public void OnAttach()
         {
             if (!attachedObject)
             {
@@ -66,24 +54,12 @@ namespace Assets.Scripts.InputSystem
         /// <summary>
         /// Завершение взаимодействия с предметом
         /// </summary>
-        private void OnDetach()
+        public void OnDetach()
         {
-            if (attachedObject)
-            {
-                attachedObject.InteractableEnd();
-                attachedObject = null;
-            }
+            attachedObject?.InteractableEnd();
+            attachedObject = null;
             transform.position = Camera.main.transform.position;
         }
-
-        private void Idle()
-        {
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit raycastHit, 100, interactableMask))
-            {
-
-            }
-        }
-
 
         /// <summary>
         /// Получение ближайшего коллайдера

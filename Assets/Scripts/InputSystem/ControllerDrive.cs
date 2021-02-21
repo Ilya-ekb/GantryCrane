@@ -13,7 +13,6 @@ namespace Assets.Scripts.InputSystem
     public class ControllerDrive : Interactable
     {
         public float OutAngle { get { return outAngle; } }
-        public float Signal { get { return signal; } }
 
         [Header("Ось вращения контроллера:")]
         [SerializeField] private Axis_Rot axisRotation = Axis_Rot.Axis_X;
@@ -23,10 +22,6 @@ namespace Assets.Scripts.InputSystem
         [SerializeField] private float minAngle = -35.0f;
         [SerializeField] private float maxAngle = 35.0f;
         [SerializeField] private float outAngle;
-        [SerializeField] private float signal;
-
-        [Header("Событие при обновлении угла контроллера:")]
-        public UnityEvent OnAngleUpdate;
 
         private Quaternion startRotation;
 
@@ -64,6 +59,9 @@ namespace Assets.Scripts.InputSystem
             ComputeSignal();
         }
 
+        /// <summary>
+        /// Вычисление управляющего сигнал контроллера
+        /// </summary>
         private void ComputeSignal()
         {
             signal = (outAngle - minAngle) / (maxAngle - minAngle);
@@ -75,7 +73,6 @@ namespace Assets.Scripts.InputSystem
         private void RotateObject()
         {
             transform.localRotation = startRotation * Quaternion.AngleAxis(outAngle, worldPlane);
-            OnAngleUpdate?.Invoke();
         }
 
         /// <summary>
@@ -83,6 +80,7 @@ namespace Assets.Scripts.InputSystem
         /// </summary>
         public override void InteractableBegin(Vector3 input)
         {
+            base.InteractableBegin(input);
             if(StartRotationCor != null)
             {
                 StopCoroutine(StartRotationCor);
@@ -96,8 +94,10 @@ namespace Assets.Scripts.InputSystem
         /// </summary>
         public override void InteractableUpdate(Vector3 input)
         {
+            base.InteractableUpdate(input);
             ComputeOutAngle(input);
             Refresh();
+            OnInteractableUpdate?.Invoke();
         }
 
         /// <summary>
@@ -105,6 +105,7 @@ namespace Assets.Scripts.InputSystem
         /// </summary>
         public override void InteractableEnd()
         {
+            base.InteractableEnd();
             StartRotationCor = StartCoroutine(ToStartRotation());
         }
 
@@ -177,7 +178,6 @@ namespace Assets.Scripts.InputSystem
             if(directionVector.sqrMagnitude > .0f)
             {
                 inputProjection = Vector3.ProjectOnPlane(directionVector, worldPlane).normalized;
-                Debug.Log(inputProjection);
             }
             return inputProjection;
         }
@@ -188,6 +188,7 @@ namespace Assets.Scripts.InputSystem
             {
                 outAngle = Mathf.Lerp(outAngle, 0, 0.1f);
                 Refresh();
+                OnInteractableUpdate.Invoke();
                 yield return null;
             }
             outAngle = .0f;

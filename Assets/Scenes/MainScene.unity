@@ -166,11 +166,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlingObject: {fileID: 271182388}
-  massControlingObject: 3
-  inertia: 150
+  motorPower: 0
+  mass: 0
   axis: 1
   maxSpeed: 10
-  signal: 0
   extremum: 31
   debug: 1
 --- !u!54 &271182390
@@ -199,7 +198,6 @@ GameObject:
   m_Component:
   - component: {fileID: 320430562}
   - component: {fileID: 320430563}
-  - component: {fileID: 320430564}
   m_Layer: 0
   m_Name: ControllerFB
   m_TagString: Untagged
@@ -234,69 +232,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df75236a5cba41249a866a491a57f1f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnInteractableUpdate:
+    m_PersistentCalls:
+      m_Calls: []
   axisRotation: 0
   rotationCollider: {fileID: 0}
   minAngle: -15
   maxAngle: 15
   outAngle: 0
-  signal: 0
-  OnAngleUpdate:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &320430564
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 320430561}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec325a525e77c034388a3ab10520dfc2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ColorHiglightA:
-    r: 0
-    g: 0
-    b: 1
-    a: 1
-  ColorFromArrayy:
-  - r: 1
-    g: 0.92156863
-    b: 0.015686275
-    a: 1
-  - r: 0
-    g: 0
-    b: 1
-    a: 1
-  - r: 1
-    g: 0
-    b: 1
-    a: 1
-  - r: 0
-    g: 1
-    b: 1
-    a: 1
-  - r: 0
-    g: 1
-    b: 0
-    a: 1
-  - r: 1
-    g: 0
-    b: 0
-    a: 1
-  - r: 1
-    g: 1
-    b: 1
-    a: 1
-  mult: 2
-  widthH: 0.01
-  isOff: 1
-  OnlyOnce: 1
-  mnozitelOutlineVR: 0.1
-  shaderOutline: {fileID: 0}
-  allMeshes: []
-  highlightArray: []
 --- !u!1 &576902944
 GameObject:
   m_ObjectHideFlags: 0
@@ -454,11 +397,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlingObject: {fileID: 624160667}
-  massControlingObject: 3
-  inertia: 150
+  motorPower: 600
+  mass: 5
   axis: 2
   maxSpeed: 8
-  signal: 0
   extremum: 100
   debug: 1
 --- !u!1 &705507993
@@ -659,6 +601,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 803679538}
+  - component: {fileID: 803679539}
   m_Layer: 0
   m_Name: ' Dashboard'
   m_TagString: Untagged
@@ -684,6 +627,29 @@ Transform:
   m_Father: {fileID: 624160667}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &803679539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 803679537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8345211bd55c7b42bc542bc76a0b299, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  input: {fileID: 1259652001}
+  nodes:
+  - Name: Forward-Back node
+    device: {fileID: 919132149081938846}
+    controller: {fileID: 320430563}
+  - Name: Left-Right node
+    device: {fileID: 624160668}
+    controller: {fileID: 1377618729}
+  - Name: Up-Down node
+    device: {fileID: 271182389}
+    controller: {fileID: 1242245213}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -777,7 +743,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1242245212}
   - component: {fileID: 1242245213}
-  - component: {fileID: 1242245214}
   m_Layer: 0
   m_Name: ControllerUD
   m_TagString: Untagged
@@ -812,69 +777,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df75236a5cba41249a866a491a57f1f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnInteractableUpdate:
+    m_PersistentCalls:
+      m_Calls: []
   axisRotation: 0
   rotationCollider: {fileID: 0}
   minAngle: -15
   maxAngle: 15
   outAngle: 0
-  signal: 0
-  OnAngleUpdate:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &1242245214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1242245211}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec325a525e77c034388a3ab10520dfc2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ColorHiglightA:
-    r: 0
-    g: 0
-    b: 1
-    a: 1
-  ColorFromArrayy:
-  - r: 1
-    g: 0.92156863
-    b: 0.015686275
-    a: 1
-  - r: 0
-    g: 0
-    b: 1
-    a: 1
-  - r: 1
-    g: 0
-    b: 1
-    a: 1
-  - r: 0
-    g: 1
-    b: 1
-    a: 1
-  - r: 0
-    g: 1
-    b: 0
-    a: 1
-  - r: 1
-    g: 0
-    b: 0
-    a: 1
-  - r: 1
-    g: 1
-    b: 1
-    a: 1
-  mult: 2
-  widthH: 0.01
-  isOff: 1
-  OnlyOnce: 1
-  mnozitelOutlineVR: 0.1
-  shaderOutline: {fileID: 0}
-  allMeshes: []
-  highlightArray: []
 --- !u!1 &1259651996
 GameObject:
   m_ObjectHideFlags: 0
@@ -945,7 +855,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1377618728}
   - component: {fileID: 1377618729}
-  - component: {fileID: 1377618730}
   m_Layer: 0
   m_Name: ControllerLR
   m_TagString: Untagged
@@ -980,69 +889,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df75236a5cba41249a866a491a57f1f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnInteractableUpdate:
+    m_PersistentCalls:
+      m_Calls: []
   axisRotation: 0
   rotationCollider: {fileID: 0}
   minAngle: -15
   maxAngle: 15
   outAngle: 0
-  signal: 0
-  OnAngleUpdate:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &1377618730
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1377618727}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec325a525e77c034388a3ab10520dfc2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ColorHiglightA:
-    r: 0
-    g: 0
-    b: 1
-    a: 1
-  ColorFromArrayy:
-  - r: 1
-    g: 0.92156863
-    b: 0.015686275
-    a: 1
-  - r: 0
-    g: 0
-    b: 1
-    a: 1
-  - r: 1
-    g: 0
-    b: 1
-    a: 1
-  - r: 0
-    g: 1
-    b: 1
-    a: 1
-  - r: 0
-    g: 1
-    b: 0
-    a: 1
-  - r: 1
-    g: 0
-    b: 0
-    a: 1
-  - r: 1
-    g: 1
-    b: 1
-    a: 1
-  mult: 2
-  widthH: 0.01
-  isOff: 1
-  OnlyOnce: 1
-  mnozitelOutlineVR: 0.1
-  shaderOutline: {fileID: 0}
-  allMeshes: []
-  highlightArray: []
 --- !u!1 &1580444808
 GameObject:
   m_ObjectHideFlags: 0
@@ -1116,7 +970,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1644845874}
-  - component: {fileID: 1644845875}
   m_Layer: 0
   m_Name: Crane
   m_TagString: Untagged
@@ -1139,20 +992,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1644845875
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1644845873}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b900707e653893f459201fb34c38c46d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  motors: []
-  maxSpeed: 500
 --- !u!1 &1880503945
 GameObject:
   m_ObjectHideFlags: 0
@@ -1974,11 +1813,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlingObject: {fileID: 543450652733063463}
-  massControlingObject: 50
-  inertia: 1000
+  motorPower: 600
+  mass: 20
   axis: 0
   maxSpeed: 10
-  signal: 0
   extremum: 200
   debug: 1
 --- !u!23 &1066984749902617273

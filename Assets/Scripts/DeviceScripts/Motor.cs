@@ -2,19 +2,19 @@
 
 using UnityEngine;
 
-namespace Assets.Scripts.MotorScripts
+namespace Assets.Scripts.DeviceScripts
 {
-    public class Motor : MonoBehaviour
+    public class Motor : Device
     {
         [Header("Управлеяемый с мотором объект:")]
         [Tooltip("Ссылка на Transform:")]
         [SerializeField] private Transform controlingObject;
 
-        [Tooltip("Масса объекта")]
-        [SerializeField] private float massControlingObject;
+        [Tooltip("Условная мощность мотора")]
+        [SerializeField] private float motorPower;
 
-        [Tooltip("Инерция(для расчета замедления)")]
-        [SerializeField] private float inertia;
+        [Tooltip("Условная масса объекта")]
+        [SerializeField] private float mass;
 
         [Header("Ось перемещения:")]
         [Tooltip("Ось перемещения, вдоль которой будет двигаться управляемый объект")]
@@ -24,10 +24,10 @@ namespace Assets.Scripts.MotorScripts
         [Tooltip("Маскимальная скорость управляемого объекта")]
         [SerializeField] private float maxSpeed;
 
-        [Range(-1, 1)]
-        [Header("Управляющий сигнал:")]
-        [Tooltip("Приходящий управляющий сигнал на мотор, изменяется от -1 до 1, где 0 - состояние покоя")]
-        [SerializeField] private float signal = 0f;
+        //[Range(.0f, 1.0f)]
+        //[Header("Управляющий сигнал:")]
+        //[Tooltip("Приходящий управляющий сигнал на мотор, изменяется от -1 до 1, где 0 - состояние покоя")]
+        //[SerializeField] private float signal = .5f;
 
         [Header("Экстремум перемещения:")]
         [Tooltip("Ограничение максимальной и минимальной точек движения объекта вдоль выбранной оси:")]
@@ -40,12 +40,13 @@ namespace Assets.Scripts.MotorScripts
         private float prevSignal;
         private float adjPoint0;
         private float adjPoint1;
+        private const float deaccel = 10000.0f;
 
 
         /// <summary>
         /// Расчет текущей позиции управляемого объекта
         /// </summary>
-        public void ComputePosition()
+        public override void Work(float signal)
         {
             if (controlingObject)
             {
@@ -61,7 +62,7 @@ namespace Assets.Scripts.MotorScripts
         /// <summary>
         /// Стартовые настройки
         /// </summary>
-        private void InitialSettings()
+        protected override void InitialSettings()
         {
             if (controlingObject)
             {
@@ -71,15 +72,22 @@ namespace Assets.Scripts.MotorScripts
             }
         }
 
+        /// <summary>
+        /// Корректировка вектора по выбранной оси относительно min и max значений
+        /// </summary>
+        /// <param name="position">Вектор относительно, которого возвращается скорректированный по выбранной оси результирующий вектор</param>
+        /// <param name="axis">Ось корректировки</param>
+        /// <param name="min">Максимальное значение</param>
+        /// <param name="max">Минимальное значение</param>
+        /// <returns>Вектор скорректированный в пределах min и max значений по выбранной оси относительно входного вектора</returns>
         private Vector3 AdjPosition(Vector3 position, Axis axis, float min, float max)
         {
-            position = controlingObject.position;
             position[(int)axis] = Mathf.Clamp(position[(int)axis], min, max);
             return position;
         }
 
         private void OnDrawGizmos()
-        {                                                          
+        {
 #if UNITY_EDITOR
             if (!Application.isPlaying)
             {
@@ -114,30 +122,17 @@ namespace Assets.Scripts.MotorScripts
         /// <summary>
         /// Расчет текущей скорости
         /// </summary>
-        /// <param name="signal"></param>Управляющий сигнал: изменяется от -1 до 1
-        /// <returns></returns>
+        /// <param name="signal">Управляющий сигнал: изменяется от 0 до 1, где 0.5 равно нулевой скорости, 0 и 1 - maxSpeed</param>
+        /// <returns>Скорость от 0 до maxSpeed интерполированную в зависимости от сигнала</returns>
         private float ComputeVelocity(float signal)
         {
-            var currentSignal = Mathf.Abs(signal);
-            currentSignal = Mathf.Lerp(prevSignal, currentSignal, massControlingObject / inertia);
-            float velocity = Mathf.Lerp(maxSpeed, 0, 1 - currentSignal);
-            prevSignal = currentSignal;
-            velocity = signal > 0 ? velocity : -velocity; 
+            signal = Mathf.Lerp(prevSignal, signal, (motorPower / deaccel) / mass);
+            float velocity = Mathf.Lerp(0, maxSpeed, 4 * ((signal - .5f) * (signal - .5f)));
+            prevSignal = signal;
+            velocity = signal > .5f ? velocity : signal < .5f ? -velocity : 0;
             return velocity;
         }
-
-        private void Start()
-        {
-            InitialSettings();
-        }
-#if UNITY_EDITOR
-        private void Update()
-        {
-            ComputePosition();  
-        }
-#endif
     }
-
     public enum Axis
     {
         axis_X,
