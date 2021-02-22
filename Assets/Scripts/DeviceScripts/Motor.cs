@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.DeviceScripts
 {
-    public class Motor : Device
+    public class Motor : MovingDevice
     {
         [Header("Ось перемещения:")]
         [Tooltip("Ось перемещения, вдоль которой будет двигаться управляемый объект")]

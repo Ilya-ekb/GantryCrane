@@ -9,7 +9,7 @@ namespace Assets.Scripts.ManageScripts
     public class Node 
     {
         [SerializeField] private string Name;
-        [SerializeField] private Device device;
+        [SerializeField] private MovingDevice device;
         [SerializeField] private Interactable controller;
 
         public void Connect()

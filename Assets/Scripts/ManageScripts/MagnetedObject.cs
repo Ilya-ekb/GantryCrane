@@ -26,15 +26,15 @@ namespace Assets.Scripts.ManageScripts
             InitializateRigidbody();
         }
 
+        /// <summary>
+        /// Добавление и настройка Rigidboby
+        /// </summary>
         private void InitializateRigidbody()
         {
             rigidbody = GetComponent<Rigidbody>();
             if (!rigidbody) rigidbody = gameObject.AddComponent<Rigidbody>();
             rigidbody.isKinematic = false;
             rigidbody.useGravity = true;
-            rigidbody.centerOfMass = Vector3.up * -.2f;
-            rigidbody.drag = 1;
-            rigidbody.angularDrag = 1;
         }
 
 

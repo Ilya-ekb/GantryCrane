@@ -21,9 +21,11 @@ namespace Assets.Scripts.ManageScripts
 
         [SerializeField] protected float mass;
         [SerializeField] private ControlledObject parent;
+        private float startMass;
 
         protected virtual void Start()
         {
+            startMass = mass;
             ReportMass(mass);
         }
 
@@ -41,7 +43,17 @@ namespace Assets.Scripts.ManageScripts
             }
         }
 
+        private void ResetMass()
+        {
+            ReportMass(startMass);
+        }
+
         public virtual void Connected(Transform parent) { Parent = parent; }
-        public virtual void Disconnected() { transform.parent = null; }
+        public virtual void Disconnected() 
+        {
+            transform.parent = null;
+            parent.ResetMass();
+            parent = null;
+        }
     }
 }
