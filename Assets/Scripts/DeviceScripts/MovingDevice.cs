@@ -28,10 +28,11 @@ namespace Assets.Scripts.DeviceScripts
         /// <returns>Скорость от 0 до maxSpeed интерполированную в зависимости от сигнала</returns>
         protected virtual float ComputeVelocity(float signal)
         {
+            signal = prevSignal < .5f ? Mathf.Clamp(signal, .0f, .5f) : prevSignal > .5f ? Mathf.Clamp(signal, .5f, 1.0f) : signal;
             var curSign = Mathf.Lerp(prevSignal, signal, (devicePower / deaccel) / controlledObject.Mass);
             float velocity = Mathf.Lerp(0, maxSpeed, 4 * ((curSign - .5f) * (curSign - .5f)));
             prevSignal = (signal == .5f) ? .5f : curSign;
-            velocity = signal > .5f ? velocity : signal < .5f ? -velocity : 0;
+            velocity = signal > .5f ? velocity : signal < .5f ? -velocity : velocity;
             return velocity;
         }
     }
