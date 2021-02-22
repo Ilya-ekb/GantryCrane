@@ -20,11 +20,13 @@ namespace Assets.Scripts.InputSystem
         private Quaternion startRotation;
 
         private Vector3 worldPlane = Vector3.zero;
-        private Vector3 localPlane = Vector3.zero;
 
         private Vector3 lastProjectionVector;
 
+        //Чувствительность контроллера
         private float limitDeltaAngle = 0.1f;
+
+        //Увеличить это значение если нужно, чтобы контроллер немного фиксировался на крайних значения
         private float minMaxAngularThreshold = 0.1f;
 
         protected override void Start()
@@ -32,7 +34,6 @@ namespace Assets.Scripts.InputSystem
             base.Start();
             axis = (int)axisRotation;
             worldPlane[axis] = 1.0f;
-            localPlane = worldPlane;
 
             if (transform.parent) { worldPlane = transform.parent.localToWorldMatrix.MultiplyVector(worldPlane).normalized; }
 
