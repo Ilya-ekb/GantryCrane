@@ -23,6 +23,11 @@ namespace Assets.Scripts.ManageScripts
         protected override void Start()
         {
             base.Start();
+            InitializateRigidbody();
+        }
+
+        private void InitializateRigidbody()
+        {
             rigidbody = GetComponent<Rigidbody>();
             if (!rigidbody) rigidbody = gameObject.AddComponent<Rigidbody>();
             rigidbody.isKinematic = false;
@@ -32,17 +37,16 @@ namespace Assets.Scripts.ManageScripts
             rigidbody.angularDrag = 1;
         }
 
-        public override void Connected(Rigidbody rb)
+
+        public override void Connected(Transform transform)
         {
-            var joint = gameObject.AddComponent<FixedJoint>();
-            joint.connectedBody = rb;
-            joint.connectedMassScale = 5;
+            base.Connected(transform);
+            DestroyImmediate(rigidbody);
         }
-        public override void Disconnect()
+        public override void Disconnected()
         {
-            var joint = GetComponent<FixedJoint>();
-            if (joint) { DestroyImmediate(joint); }
-            rigidbody.isKinematic = false;
+            base.Disconnected();
+            InitializateRigidbody();
         }
     }
 }

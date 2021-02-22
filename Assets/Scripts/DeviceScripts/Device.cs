@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.DeviceScripts
 {
-    public class Device : MonoBehaviour
+    public abstract class Device : MonoBehaviour
     {
         [Header("Управлеяемые устройством объекты:")]
         [Tooltip("Ссылка на Transform:")]
@@ -35,7 +35,7 @@ namespace Assets.Scripts.DeviceScripts
         /// <summary>
         /// Стартовые настройки
         /// </summary>
-        protected virtual void InitialSettings() { }
+        protected abstract void InitialSettings();
 
         /// <summary>
         /// Расчет текущей скорости управляемого объекта

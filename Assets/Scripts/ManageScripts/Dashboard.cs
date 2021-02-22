@@ -17,6 +17,7 @@ namespace Assets.Scripts.ManageScripts
 
         private void Start()
         {
+            
             foreach(var node in nodes)
             {
                 node.Connect();

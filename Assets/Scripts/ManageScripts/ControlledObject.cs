@@ -8,30 +8,40 @@ namespace Assets.Scripts.ManageScripts
 {
     public class ControlledObject : MonoBehaviour
     {
-        public virtual Vector3 position { get => transform.position; set => transform.position = value; }
         public float Mass { get { return mass; } }
-        [SerializeField] protected float mass;
-        [SerializeField] protected ControlledObject parent;
-
-        protected virtual void Start()
+        public virtual Vector3 position { get => transform.position; set => transform.position = value; }
+        public virtual Transform Parent
         {
-            if(!parent) parent = transform.parent?.GetComponentInParent<ControlledObject>();
-            var childs = GetComponentsInChildren<ControlledObject>();
-            if (childs.Length < 2)
+            set
             {
+                transform.parent = value;
                 ReportMass(mass);
             }
         }
 
-        public void ReportMass(float mass)
+        [SerializeField] protected float mass;
+        [SerializeField] private ControlledObject parent;
+
+        protected virtual void Start()
         {
-            this.mass = mass;
-            if (!parent) return;
-            mass += parent.Mass;
-            parent.ReportMass(mass);
+            ReportMass(mass);
         }
 
-        public virtual void Connected(Rigidbody rb) { }
-        public virtual void Disconnect() { }
+        private void ReportMass(float mass)
+        {
+            this.mass = mass;
+            if (!parent) parent = transform.parent?.GetComponentInParent<ControlledObject>();
+            if (!parent) return;
+            var childs = GetComponentsInChildren<ControlledObject>();
+            if (childs.Length < 2)
+            {
+
+                mass += parent.mass;
+                parent.ReportMass(mass);
+            }
+        }
+
+        public virtual void Connected(Transform parent) { Parent = parent; }
+        public virtual void Disconnected() { transform.parent = null; }
     }
 }

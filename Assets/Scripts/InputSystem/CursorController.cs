@@ -4,23 +4,16 @@ using UnityEngine;
 
 namespace Assets.Scripts.InputSystem
 {
-    public class CursorController : MonoBehaviour
+    public class CursorController : MonoBehaviour, ISystemInput
     {
-        private SphereCollider sphere;
         private Collider[] colliders;
         [SerializeField] private LayerMask interactableMask;
         private Interactable attachedObject = null;
+        private float distance;
 
         private void Start()
         {
-            sphere = GetComponent<SphereCollider>();
-            if (!sphere)
-            {
-                sphere = gameObject.AddComponent<SphereCollider>();
-                sphere.radius = .5f; 
-            }
             transform.position = Camera.main.transform.position;
-
         }
 
         /// <summary>
@@ -33,12 +26,13 @@ namespace Assets.Scripts.InputSystem
                 if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit raycastHit, 100))
                 {
                     transform.position = raycastHit.point;
-                    colliders = Physics.OverlapSphere(sphere.transform.position, sphere.radius, interactableMask);
+                    distance = raycastHit.distance;
+                    colliders = Physics.OverlapSphere(transform.position, transform.localScale.x/2, interactableMask);
                     if (colliders != null)
                     {
                         var col = Nearest(transform.position, colliders);
-                        attachedObject = col.GetComponentInParent<Interactable>();
-                        attachedObject?.InteractableBegin(Camera.main.ScreenPointToRay(Input.mousePosition).GetPoint(3));
+                        attachedObject = col?.GetComponentInParent<Interactable>();
+                        attachedObject?.InteractableBegin(Camera.main.ScreenPointToRay(Input.mousePosition).GetPoint(distance));
                     }
                 }
             }
@@ -46,7 +40,7 @@ namespace Assets.Scripts.InputSystem
             {
                 var ind = little_crunch(attachedObject.Axis);
                 var attachedPos = transform.position;
-                attachedPos[ind] = Camera.main.ScreenPointToRay(Input.mousePosition).GetPoint(3)[ind];
+                attachedPos[ind] = Camera.main.ScreenPointToRay(Input.mousePosition).GetPoint(distance)[ind];
                 attachedObject.InteractableUpdate(attachedPos);
             }
         }
@@ -61,6 +55,12 @@ namespace Assets.Scripts.InputSystem
             transform.position = Camera.main.transform.position;
         }
 
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireSphere(transform.position, transform.localScale.x/2);
+        }
+
         /// <summary>
         /// Получение ближайшего коллайдера
         /// </summary>
@@ -69,6 +69,7 @@ namespace Assets.Scripts.InputSystem
         /// <returns></returns>
         private Collider Nearest(Vector3 point, Collider[] colliders)
         {
+            if (!colliders[0]) return null;
             var nearestColl = colliders[0];
             var minDistance = Vector3.Distance(point, nearestColl.transform.position);
             foreach (var collider in colliders)
@@ -80,7 +81,13 @@ namespace Assets.Scripts.InputSystem
         }
 
         //who, without sin, let him be the first to throw a stone at me)
-        int little_crunch(int x) => x == 0 ? 2 : x == 1 ? 0 : 1;
+        int little_crunch(int x) => x == 0 ? 2 : 0;
+    }
+
+    public interface ISystemInput
+    {
+        void OnAttach();
+        void OnDetach();
     }
 
 }

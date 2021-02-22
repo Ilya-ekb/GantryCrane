@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 namespace Assets.Scripts.InputSystem
 {
-    public class Interactable : MonoBehaviour
+    public abstract class Interactable : MonoBehaviour
     {
         public float Signal { get { return signal; } }
 

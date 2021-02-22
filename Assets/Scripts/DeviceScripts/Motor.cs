@@ -63,28 +63,31 @@ namespace Assets.Scripts.DeviceScripts
 
         private void OnDrawGizmos()
         {
-            if (controlledObject && debug)
+            if (!Application.isPlaying)
             {
-                InitialSettings();
-                Vector3 point0, point1;
-                point1 = point0 = controlledObject.position;
-                if (axis == Axis.axis_X)
+                if (controlledObject && debug)
                 {
-                    Gizmos.color = Color.red;
+                    InitialSettings();
+                    Vector3 point0, point1;
+                    point1 = point0 = controlledObject.position;
+                    if (axis == Axis.axis_X)
+                    {
+                        Gizmos.color = Color.red;
+                    }
+                    if (axis == Axis.axis_Y)
+                    {
+                        Gizmos.color = Color.green;
+                    }
+                    if (axis == Axis.axis_Z)
+                    {
+                        Gizmos.color = Color.blue;
+                    }
+                    point0[(int)axis] = adjPoint0;
+                    point1[(int)axis] = adjPoint1;
+                    Gizmos.DrawLine(point0, point1);
+                    Gizmos.DrawSphere(point0, 1f);
+                    Gizmos.DrawSphere(point1, 1f);
                 }
-                if (axis == Axis.axis_Y)
-                {
-                    Gizmos.color = Color.green;
-                }
-                if (axis == Axis.axis_Z)
-                {
-                    Gizmos.color = Color.blue;
-                }
-                point0[(int)axis] = adjPoint0;
-                point1[(int)axis] = adjPoint1;
-                Gizmos.DrawLine(point0, point1);
-                Gizmos.DrawSphere(point0, 1f);
-                Gizmos.DrawSphere(point1, 1f);
             }
         }
     }

@@ -15,7 +15,6 @@ namespace Assets.Scripts.DeviceScripts
 
         protected override void InitialSettings()
         {
-            base.InitialSettings();
             rb = GetComponent<Rigidbody>();
             if (!rb) { rb = gameObject.AddComponent<Rigidbody>(); }
         }
@@ -45,8 +44,7 @@ namespace Assets.Scripts.DeviceScripts
                         controlledObject = coll.gameObject.GetComponent<MagnetedObject>();
                         if (controlledObject)
                         {
-                            controlledObject.ReportMass(controlledObject.Mass);
-                            controlledObject.Connected(rb);
+                            controlledObject.Connected(transform);
                         }
                     }
                 }
@@ -58,7 +56,7 @@ namespace Assets.Scripts.DeviceScripts
                     foreach (var collider in connectColliders)
                     {
                         controlledObject = collider.GetComponent<MagnetedObject>();
-                        if (controlledObject) { controlledObject.Disconnect(); connected = false; }
+                        if (controlledObject) { controlledObject.Disconnected(); connected = false; }
                     }
                 }
             }
