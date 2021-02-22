@@ -6,8 +6,11 @@ namespace Assets.Scripts.DeviceScripts
 {
     public class Magnet : MovingDevice
     {
+        [Header("Радиус действия магнита")]
         [SerializeField] private float workRadius = 0;
+
         [SerializeField] private LayerMask magnetMask;
+        
         private Rigidbody rb;
         private Collider[] connectColliders;
         private Coroutine magnetCor;
@@ -55,12 +58,6 @@ namespace Assets.Scripts.DeviceScripts
                     connectColliders = null;
                 }
             }
-        }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.UpArrow)) { Work(1.0f); }
-            if (Input.GetKeyDown(KeyCode.DownArrow)) { Work(.0f); }
         }
 
         //Процесс примагничивания

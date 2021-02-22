@@ -7,7 +7,11 @@ namespace Assets.Scripts.InputSystem
 {
     public abstract class Interactable : MonoBehaviour
     {
+        /// <summary>
+        /// Управляющийся сигнал
+        /// </summary>
         public virtual float Signal => signal;
+
         [SerializeField] protected Collider childCollider;
 
         [Header("Минимальное значение перемещения по оси:")]

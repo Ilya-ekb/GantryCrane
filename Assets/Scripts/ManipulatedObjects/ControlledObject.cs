@@ -11,44 +11,52 @@ namespace Assets.Scripts.ManageScripts
             set
             {
                 transform.parent = value;
-                ReportMass(mass);
+                ReportMass();
             }
         }
 
         [SerializeField] protected float mass;
         [SerializeField] private ControlledObject parent;
+        [SerializeField] private bool end;
         private float startMass;
+
+        private void Awake()
+        {
+            startMass = mass;
+        }
 
         protected virtual void Start()
         {
-            startMass = mass;
-            ReportMass(mass);
+            if (end) ReportMass();
         }
 
-        private void ReportMass(float mass)
+        /// <summary>
+        /// Передача массы сочленнным объектам
+        /// </summary>
+        /// <param name="mass"></param>
+        private void ReportMass(float mass = .0f)
         {
-            this.mass = mass;
+            this.mass = startMass +  mass;
             if (!parent) parent = transform.parent?.GetComponentInParent<ControlledObject>();
             if (!parent) return;
-            var childs = GetComponentsInChildren<ControlledObject>();
-            if (childs.Length < 2)
             {
-
-                mass += parent.mass;
-                parent.ReportMass(mass);
+                parent.ReportMass(this.mass);
             }
         }
 
-        private void ResetMass()
-        {
-            ReportMass(startMass);
-        }
-
+        /// <summary>
+        /// Присоедиение массы объекта к общему сочленению
+        /// </summary>
+        /// <param name="parent"></param>
         public virtual void Connected(Transform parent) { Parent = parent; }
+        
+        /// <summary>
+        /// Отсоединение от общего сочленения
+        /// </summary>
         public virtual void Disconnected() 
         {
             transform.parent = null;
-            parent.ResetMass();
+            parent.ReportMass();
             parent = null;
         }
     }

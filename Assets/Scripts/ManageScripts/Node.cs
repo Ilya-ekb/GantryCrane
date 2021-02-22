@@ -18,7 +18,7 @@ namespace Assets.Scripts.ManageScripts
         [SerializeField] private Device[] devices;
 
         /// <summary>
-        /// Подключение устройства узла к контроллеру узла
+        /// Подключение устройств узла к контроллеру узла
         /// </summary>
         public void Connect()
         {

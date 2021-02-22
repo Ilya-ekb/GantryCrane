@@ -75,7 +75,7 @@ namespace Assets.Scripts.InputSystem
         /// <returns></returns>
         private Collider Nearest(Vector3 point, Collider[] colliders)
         {
-            if (!colliders[0]) return null;
+            if (colliders.Length == 0) return null;
             var nearestColl = colliders[0];
             var minDistance = Vector3.Distance(point, nearestColl.transform.position);
             foreach (var collider in colliders)
