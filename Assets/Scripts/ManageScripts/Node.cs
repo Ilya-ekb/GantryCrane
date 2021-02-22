@@ -8,13 +8,18 @@ namespace Assets.Scripts.ManageScripts
     [Serializable]
     public class Node 
     {
+        [Header("Название узла: ")]
         [SerializeField] private string Name;
-        [SerializeField] private MovingDevice device;
+
+        [Header("Контроллер узла: ")]
         [SerializeField] private Interactable controller;
+
+        [Header("Устройства: ")]
+        [SerializeField] private Device[] devices;
 
         public void Connect()
         {
-            controller.OnInteractableUpdate.AddListener(() => { device.Work(controller.Signal); });
+            controller.OnInteractableUpdate.AddListener(() => { foreach (var device in devices) device.Work(controller.Signal); });
         }
     }
 }

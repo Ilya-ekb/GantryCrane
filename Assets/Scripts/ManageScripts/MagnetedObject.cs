@@ -20,6 +20,7 @@ namespace Assets.Scripts.ManageScripts
         }
 
         private new Rigidbody rigidbody;
+
         protected override void Start()
         {
             base.Start();
@@ -37,12 +38,19 @@ namespace Assets.Scripts.ManageScripts
             rigidbody.useGravity = true;
         }
 
-
+        /// <summary>
+        /// Присоединение к магниту
+        /// </summary>
+        /// <param name="transform">Магнит</param>
         public override void Connected(Transform transform)
         {
             base.Connected(transform);
             DestroyImmediate(rigidbody);
         }
+
+        /// <summary>
+        /// Отсоединение от магнита
+        /// </summary>
         public override void Disconnected()
         {
             base.Disconnected();

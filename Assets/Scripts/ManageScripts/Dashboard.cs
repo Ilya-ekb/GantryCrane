@@ -12,7 +12,10 @@ namespace Assets.Scripts.ManageScripts
 {
     public class Dashboard : MonoBehaviour
     {
+        [Header("Контроллер ввода:")]
         public CursorController input;
+
+        [Header("Рабочие узлы:")]
         public Node[] nodes;
 
         private void Start()
