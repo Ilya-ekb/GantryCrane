@@ -12,16 +12,10 @@ namespace Assets.Scripts.InputSystem
 {
     public class ControllerDrive : Interactable
     {
-        public float OutAngle { get { return outAngle; } }
+        public float OutAngle { get { return outValue; } }
 
         [Header("Ось вращения контроллера:")]
         [SerializeField] private Axis_Rot axisRotation = Axis_Rot.Axis_X;
-
-        [SerializeField] private Collider rotationCollider;
-
-        [SerializeField] private float minAngle = -35.0f;
-        [SerializeField] private float maxAngle = 35.0f;
-        [SerializeField] private float outAngle;
 
         private Quaternion startRotation;
 
@@ -30,91 +24,53 @@ namespace Assets.Scripts.InputSystem
 
         private Vector3 lastProjectionVector;
 
-        private Coroutine StartRotationCor = null;
         private float limitDeltaAngle = 0.1f;
         private float minMaxAngularThreshold = 0.1f;
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             axis = (int)axisRotation;
-            if (!rotationCollider) { rotationCollider = GetComponentInChildren<Collider>(); }
             worldPlane[axis] = 1.0f;
             localPlane = worldPlane;
 
             if (transform.parent) { worldPlane = transform.parent.localToWorldMatrix.MultiplyVector(worldPlane).normalized; }
 
             startRotation = Quaternion.identity;
-            outAngle = transform.localEulerAngles[axis];
-            outAngle = Mathf.Clamp(outAngle, minAngle, maxAngle);
+            outValue = transform.localEulerAngles[axis];
+            outValue = Mathf.Clamp(outValue, minValue, maxValue);
 
             Refresh();
-        }
-
-        /// <summary>
-        /// Обновление контроллера
-        /// </summary>
-        public void Refresh()
-        {
-            RotateObject();
-            ComputeSignal();
         }
 
         /// <summary>
         /// Вычисление управляющего сигнал контроллера
         /// </summary>
-        private void ComputeSignal()
+        protected override void ComputeSignal()
         {
-            signal = (outAngle - minAngle) / (maxAngle - minAngle);
+            signal = (outValue - minValue) / (maxValue - minValue);
         }
 
         /// <summary>
         /// Установка угла объекта текущего угла управляемого объекта
         /// </summary>
-        private void RotateObject()
+        protected override void UpdateObjectTrasform()
         {
-            transform.localRotation = startRotation * Quaternion.AngleAxis(outAngle, worldPlane);
+            transform.localRotation = startRotation * Quaternion.AngleAxis(outValue, worldPlane);
         }
 
-        /// <summary>
-        /// Старт взаимодействия
-        /// </summary>
         public override void InteractableBegin(Vector3 input)
         {
             base.InteractableBegin(input);
-            if(StartRotationCor != null)
-            {
-                StopCoroutine(StartRotationCor);
-                StartRotationCor = null;
-            }
             lastProjectionVector = ComputeProjection(input);
         }
 
         /// <summary>
-        /// Обновление при взаимодействии
+        /// Расчет текущего угла контроллера
         /// </summary>
-        public override void InteractableUpdate(Vector3 input)
-        {
-            base.InteractableUpdate(input);
-            ComputeOutAngle(input);
-            Refresh();
-            OnInteractableUpdate?.Invoke();
-        }
-
-        /// <summary>
-        /// Окончание взаимодействий
-        /// </summary>
-        public override void InteractableEnd()
-        {
-            base.InteractableEnd();
-            StartRotationCor = StartCoroutine(ToStartRotation());
-        }
-
-        /// <summary>
-        /// Расчет угла между 
-        /// </summary>
-        /// <param name="inputTransform"></param>
+        /// <param name="inputTransform">Входящая позиция управляющего объекта</param>
         /// <returns></returns>
-        private void ComputeOutAngle(Vector3 inputTransform)
+        protected override void ComputeOutValue(Vector3 inputTransform)
         {
             var inputProjectionVector = ComputeProjection(inputTransform);
             if (!inputProjectionVector.Equals(lastProjectionVector))
@@ -132,31 +88,31 @@ namespace Assets.Scripts.InputSystem
                         if (dot < 0) { curDeltaAngle = -curDeltaAngle; }
 
 
-                        var curAngle = Mathf.Clamp(outAngle + curDeltaAngle, minAngle, maxAngle);
-                        if (outAngle == minAngle)
+                        var curAngle = Mathf.Clamp(outValue + curDeltaAngle, minValue, maxValue);
+                        if (outValue == minValue)
                         {
-                            if (curAngle > minAngle && deltaAngle > minMaxAngularThreshold)
+                            if (curAngle > minValue && deltaAngle > minMaxAngularThreshold)
                             {
-                                outAngle = curAngle;
+                                outValue = curAngle;
                                 lastProjectionVector = inputProjectionVector;
                             }
                         }
-                        else if (outAngle == maxAngle)
+                        else if (outValue == maxValue)
                         {
-                            if (curAngle < maxAngle && deltaAngle > minMaxAngularThreshold)
+                            if (curAngle < maxValue && deltaAngle > minMaxAngularThreshold)
                             {
-                                outAngle = curAngle;
+                                outValue = curAngle;
                                 lastProjectionVector = inputProjectionVector;
                             }
                         }
-                        else if (curAngle == minAngle || curAngle == maxAngle)
+                        else if (curAngle == minValue || curAngle == maxValue)
                         {
-                            outAngle = curAngle;
+                            outValue = curAngle;
                             lastProjectionVector = inputProjectionVector;
                         }
                         else
                         {
-                            outAngle = curAngle;
+                            outValue = curAngle;
                             lastProjectionVector = inputProjectionVector;
                         }
                     }
@@ -182,22 +138,22 @@ namespace Assets.Scripts.InputSystem
             return inputProjection;
         }
 
-        private IEnumerator ToStartRotation()
+        protected override IEnumerator ToStartState()
         {
-            while(Mathf.Abs(outAngle) > 0.02f)
+            while(Mathf.Abs(outValue) > 0.02f)
             {
-                outAngle = Mathf.Lerp(outAngle, 0, 0.1f);
+                outValue = Mathf.Lerp(outValue, 0, 0.1f);
                 Refresh();
                 OnInteractableUpdate.Invoke();
                 yield return null;
             }
-            outAngle = .0f;
+            outValue = .0f;
             signal = .5f;
             OnInteractableUpdate.Invoke();
         }
     }
 
-    public enum Axis_Rot
+    enum Axis_Rot
     {
         Axis_X,
         Axis_Y,

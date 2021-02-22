@@ -1,9 +1,5 @@
-﻿
-
-using Assets.Scripts.ManageScripts;
-
+﻿using Assets.Scripts.ManageScripts;
 using System.Collections;
-
 using UnityEngine;
 
 namespace Assets.Scripts.DeviceScripts

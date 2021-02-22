@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts.InputSystem
 {
@@ -8,8 +6,10 @@ namespace Assets.Scripts.InputSystem
     {
         private Collider[] colliders;
         [SerializeField] private LayerMask interactableMask;
+        [SerializeField] private bool debug;
         private Interactable attachedObject = null;
         private float distance;
+        
 
         private void Start()
         {
@@ -27,7 +27,7 @@ namespace Assets.Scripts.InputSystem
                 {
                     transform.position = raycastHit.point;
                     distance = raycastHit.distance;
-                    colliders = Physics.OverlapSphere(transform.position, transform.localScale.x/2, interactableMask);
+                    colliders = Physics.OverlapSphere(transform.position, transform.localScale.x / 2, interactableMask);
                     if (colliders != null)
                     {
                         var col = Nearest(transform.position, colliders);
@@ -38,8 +38,8 @@ namespace Assets.Scripts.InputSystem
             }
             else
             {
-                var ind = little_crunch(attachedObject.Axis);
                 var attachedPos = transform.position;
+                var ind = little_crunch(attachedObject.Axis);
                 attachedPos[ind] = Camera.main.ScreenPointToRay(Input.mousePosition).GetPoint(distance)[ind];
                 attachedObject.InteractableUpdate(attachedPos);
             }
@@ -56,9 +56,15 @@ namespace Assets.Scripts.InputSystem
         }
 
         private void OnDrawGizmos()
-        {
-            Gizmos.color = Color.cyan;
-            Gizmos.DrawWireSphere(transform.position, transform.localScale.x/2);
+        { 
+            if(Application.isPlaying && debug)
+            {
+                Gizmos.color = Color.cyan;
+                var attachedPos = transform.position;
+                var ind = little_crunch(attachedObject.Axis);
+                attachedPos[ind] = Camera.main.ScreenPointToRay(Input.mousePosition).GetPoint(distance)[ind];
+                Gizmos.DrawWireSphere(attachedPos, transform.localScale.x / 2);
+            }
         }
 
         /// <summary>

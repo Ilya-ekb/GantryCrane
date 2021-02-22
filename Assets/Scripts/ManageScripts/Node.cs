@@ -17,9 +17,27 @@ namespace Assets.Scripts.ManageScripts
         [Header("Устройства: ")]
         [SerializeField] private Device[] devices;
 
+        /// <summary>
+        /// Подключение устройства узла к контроллеру узла
+        /// </summary>
         public void Connect()
         {
-            controller.OnInteractableUpdate.AddListener(() => { foreach (var device in devices) device.Work(controller.Signal); });
+            if (!controller) { Debug.LogWarning($"Для узла \"{Name}\" не назначен контроллер"); return; }
+            controller.OnInteractableUpdate.AddListener(() => 
+            { 
+                foreach (var device in devices)
+                {
+                    if(devices != null)
+                    {
+                        device.Work(controller.Signal);
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"Для узла \"{Name}\" нет ни одного устройства");
+                    }
+                }
+            });
+
         }
     }
 }

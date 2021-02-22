@@ -1,8 +1,4 @@
-﻿
-using System;
-using System.Collections;
-
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts.ManageScripts
 {
