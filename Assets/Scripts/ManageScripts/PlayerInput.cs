@@ -2,7 +2,7 @@
 
 namespace Assets.Scripts.InputSystem
 {
-    public class PlayerInput : MonoBehaviour
+    public class PlayerInput : MonoBehaviour, ISystemInput
     {
         private Collider[] colliders;
         [SerializeField] private LayerMask interactableMask;
@@ -12,10 +12,7 @@ namespace Assets.Scripts.InputSystem
         private float distance;
 
 
-        /// <summary>
-        /// Начало взаимодействия с предметом
-        /// </summary>
-        private void OnAttach()
+        public void OnAttach()
         {
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit raycastHit, 100))
             {
@@ -31,15 +28,12 @@ namespace Assets.Scripts.InputSystem
             }
         }
 
-        private void OnAttachedUpdate()
+        public void OnAttachedUpdate()
         {
             attachedObject?.InteractableUpdate(Camera.main.ScreenPointToRay(Input.mousePosition).GetPoint(distance));
         }
 
-        /// <summary>
-        /// Завершение взаимодействия с предметом
-        /// </summary>
-        private void OnDetach()
+        public void OnDetach()
         {
             attachedObject?.InteractableEnd();
             attachedObject = null;
@@ -90,6 +84,23 @@ namespace Assets.Scripts.InputSystem
             }
             return nearestColl;
         }
-
     }
+}
+
+public interface ISystemInput
+{
+    /// <summary>
+    /// Начало взаимодействия с предметом
+    /// </summary>
+    void OnAttach();
+
+    /// <summary>
+    /// Взаимодействие с предметом
+    /// </summary>
+    void OnAttachedUpdate();
+
+    /// <summary>
+    /// Завершение взаимодействия с предметом
+    /// </summary>
+    void OnDetach();
 }

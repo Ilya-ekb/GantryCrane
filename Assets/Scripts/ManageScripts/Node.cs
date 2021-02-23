@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Assets.Scripts.ManageScripts
 {
     [Serializable]
-    public class Node 
+    public class Node: INode 
     {
         [Header("Название узла: ")]
         [SerializeField] private string Name;
@@ -17,9 +17,6 @@ namespace Assets.Scripts.ManageScripts
         [Header("Устройства: ")]
         [SerializeField] private Device[] devices;
 
-        /// <summary>
-        /// Подключение устройств узла к контроллеру узла
-        /// </summary>
         public void Connect()
         {
             if (!controller) { Debug.LogWarning($"Для узла \"{Name}\" не назначен контроллер"); return; }
@@ -46,4 +43,17 @@ namespace Assets.Scripts.ManageScripts
             controller.OnInteractableUpdate.RemoveAllListeners();
         }
     }
+    interface INode
+    {
+        /// <summary>
+        /// Подключение устройств узла к контроллеру узла
+        /// </summary>
+        void Connect();
+
+        /// <summary>
+        /// Отключение устройства узла от контроллера узла
+        /// </summary>
+        void Disconnect();
+    }
+
 }

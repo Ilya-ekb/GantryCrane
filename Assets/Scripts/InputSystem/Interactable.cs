@@ -38,15 +38,6 @@ namespace Assets.Scripts.InputSystem
         }
 
         /// <summary>
-        /// Обновление состояния объекта
-        /// </summary>
-        protected virtual void Refresh()
-        {
-            UpdateObjectTrasform();
-            ComputeSignal();
-        }
-
-        /// <summary>
         /// Обновление Transform объекта взаимодействия
         /// </summary>
         protected abstract void UpdateObjectTrasform();
@@ -61,6 +52,15 @@ namespace Assets.Scripts.InputSystem
         /// </summary>
         /// <param name="inputTransform"></param>
         protected abstract void ComputeOutValue(Vector3 inputTransform);
+
+        /// <summary>
+        /// Обновление состояния объекта
+        /// </summary>
+        protected virtual void Refresh()
+        {
+            UpdateObjectTrasform();
+            ComputeSignal();
+        }
 
         /// <summary>
         /// Старт взаимодействия
