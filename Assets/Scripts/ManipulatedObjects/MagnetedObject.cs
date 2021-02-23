@@ -15,7 +15,7 @@ namespace Assets.Scripts.ManageScripts
             get => base.position; 
             set 
             {
-                rigidbody.velocity = value;
+                if(rigidbody) rigidbody.velocity = value;
             }
         }
 
