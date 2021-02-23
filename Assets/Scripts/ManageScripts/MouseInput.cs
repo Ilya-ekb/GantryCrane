@@ -6,10 +6,12 @@ namespace Assets.Scripts.ManageScripts
 {
     public class MouseInput : SystemInput
     {
-        private Collider[] colliders;
-        [SerializeField] private LayerMask interactableMask;
-        [SerializeField] private float interactableRadius;
+        [Header("Радиус сферы начала попытки взаимодействия:")]
+        [SerializeField] protected float interactableRadius;
+        [Tooltip("Включить для визуализации сферы")]
         [SerializeField] private bool debug;
+
+        private Collider[] colliders;
         private float distance;
 
         public override void OnAttach()

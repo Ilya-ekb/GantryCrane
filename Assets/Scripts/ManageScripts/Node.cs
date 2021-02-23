@@ -11,36 +11,41 @@ namespace Assets.Scripts.ManageScripts
         [Header("Название узла: ")]
         [SerializeField] private string Name;
 
-        [Header("Контроллер узла: ")]
-        [SerializeField] private Interactable controller;
+        [Header("Контроллеры узла: ")]
+        [SerializeField] private Interactable[] controllers;
 
         [Header("Устройства: ")]
         [SerializeField] private Device[] devices;
 
         public void Connect()
         {
-            if (!controller) { Debug.LogWarning($"Для узла \"{Name}\" не назначен контроллер"); return; }
-            controller.OnInteractableUpdate.AddListener(() => 
-            { 
-                foreach (var device in devices)
+            foreach(var controller in controllers)
+            {
+                if (!controller) { Debug.LogWarning($"Для узла \"{Name}\" не назначен контроллер"); return; }
+                controller.OnInteractableUpdate.AddListener(() =>
                 {
-                    if(devices != null)
+                    foreach (var device in devices)
                     {
-                        device.Work(controller.Signal);
+                        if (devices != null)
+                        {
+                            device.Work(controller.Signal);
+                        }
+                        else
+                        {
+                            Debug.LogWarning($"Для узла \"{Name}\" нет ни одного устройства");
+                        }
                     }
-                    else
-                    {
-                        Debug.LogWarning($"Для узла \"{Name}\" нет ни одного устройства");
-                    }
-                }
-            });
-
+                });
+            }
         }
         public void Disconnect()
         {
-            if (!controller) { Debug.LogWarning($"Для узла \"{Name}\" не назначен контроллер"); return; }
-            controller.ForceDisadle();
-            controller.OnInteractableUpdate.RemoveAllListeners();
+            foreach (var controller in controllers)
+            {
+                if (!controller) { Debug.LogWarning($"Для узла \"{Name}\" не назначен контроллер"); return; }
+                controller.ForceDisadle();
+                controller.OnInteractableUpdate.RemoveAllListeners();
+            }
         }
     }
     interface INode

@@ -27,12 +27,13 @@ namespace Assets.Scripts.InteractableSystem
         public int Axis { get { return axis; } }
 
         protected int axis = 0;
-        protected float signal;
+        protected float signal = 0;
         protected Coroutine startStateCor = null;
         protected float startSignal;
 
         protected virtual void Start()
         {
+            startSignal = signal;
             if (!childCollider) { childCollider = GetComponentInChildren<Collider>(); }
         }
 

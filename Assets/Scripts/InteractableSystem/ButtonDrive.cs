@@ -87,11 +87,6 @@ namespace Assets.Scripts.InteractableSystem
             lastButtonPosition = input;
         }
 
-        public void ForceDisable()
-        {
-
-        }
-
         protected override IEnumerator ToStartState()
         {
             while ((maxValue + outValue) < -.01f)  

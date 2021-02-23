@@ -6,6 +6,7 @@ namespace Assets.Scripts.ManageScripts
     public abstract class SystemInput : MonoBehaviour
     {
         protected Interactable attachedObject;
+        [SerializeField] protected LayerMask interactableMask;
 
         /// <summary>
         /// Начало взаимодействия с предметом
