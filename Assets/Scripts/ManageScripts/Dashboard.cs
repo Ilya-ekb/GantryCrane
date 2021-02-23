@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.InputSystem;
+﻿using Assets.Scripts.DeviceScripts;
+using Assets.Scripts.InputSystem;
 
 using System;
 using System.Collections.Generic;
@@ -10,33 +11,40 @@ using UnityEngine;
 
 namespace Assets.Scripts.ManageScripts
 {
-    public class Dashboard : MonoBehaviour
+    public class Dashboard : Device
     {
-        [Header("Контроллер ввода:")]
-        public CursorController input;
-
+        [Tooltip("Установить true, если нужно включать связи в рабочих узлах при старте")]
+        public bool connectOnStart;
         [Header("Рабочие узлы:")]
         public Node[] nodes;
 
-        private void Start()
+        /// <summary>
+        /// Включение/Отключение связи между контроллером и устройствами всех узлов на дашборте
+        /// </summary>
+        /// <param name="turn"></param>
+        private void TurnNodes (Turn turn)
         {
-            
             foreach(var node in nodes)
             {
-                node.Connect();
+                if(turn == Turn.On) { node.Connect(); }
+                if(turn == Turn.Off) { node.Disconnect(); }
             }
         }
 
-        private void Update()
+        public override void Work(float signal)
         {
-            if (Input.GetMouseButton(0))
-            {
-                input.OnAttach();
-            }
-            if (Input.GetMouseButtonUp(0))
-            {
-                input.OnDetach();
-            }
+            TurnNodes((Turn)signal);
+        }
+
+        protected override void InitialSettings() 
+        {
+            if (connectOnStart) TurnNodes(Turn.On);
+        }
+
+        enum Turn
+        {
+            Off,
+            On
         }
     }
 }

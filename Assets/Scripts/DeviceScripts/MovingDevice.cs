@@ -30,7 +30,7 @@ namespace Assets.Scripts.DeviceScripts
         {
             signal = prevSignal < .5f ? Mathf.Clamp(signal, .0f, .5f) : prevSignal > .5f ? Mathf.Clamp(signal, .5f, 1.0f) : signal;
             var curSign = Mathf.Lerp(prevSignal, signal, (devicePower / deaccel) / controlledObject.Mass);
-            float velocity = Mathf.Lerp(0, maxSpeed, 4 * ((curSign - .5f) * (curSign - .5f)));
+            float velocity = (Mathf.Lerp(0, maxSpeed, 4 * ((curSign - .5f) * (curSign - .5f)))) / 100.0f;
             prevSignal = (signal == .5f) ? .5f : curSign;
             velocity = signal > .5f ? velocity : signal < .5f ? -velocity : velocity;
             return velocity;

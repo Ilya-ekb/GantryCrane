@@ -39,5 +39,11 @@ namespace Assets.Scripts.ManageScripts
             });
 
         }
+        public void Disconnect()
+        {
+            if (!controller) { Debug.LogWarning($"Для узла \"{Name}\" не назначен контроллер"); return; }
+            controller.ForceDisadle();
+            controller.OnInteractableUpdate.RemoveAllListeners();
+        }
     }
 }

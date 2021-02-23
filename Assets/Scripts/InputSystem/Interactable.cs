@@ -30,6 +30,7 @@ namespace Assets.Scripts.InputSystem
         protected int axis = 0;
         protected float signal;
         protected Coroutine startStateCor = null;
+        protected float startSignal;
 
         protected virtual void Start()
         {
@@ -84,13 +85,21 @@ namespace Assets.Scripts.InputSystem
         }
 
         /// <summary>
+        /// Принудительный возврат связанных устройств в исходное состояние
+        /// </summary>
+        public virtual void ForceDisadle()
+        {
+            signal = startSignal;
+            OnInteractableUpdate?.Invoke();
+        }
+
+        /// <summary>
         /// Окончание взаимодействий
         /// </summary>
         public virtual void InteractableEnd()
         {
             startStateCor = StartCoroutine(ToStartState());
         }
-        public virtual void OnFocusBegin() { }
 
         /// <summary>
         /// Возврат на стартовую позицию

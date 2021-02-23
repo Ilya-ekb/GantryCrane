@@ -20,6 +20,7 @@ namespace Assets.Scripts.InputSystem
         private Quaternion startRotation;
 
         private Vector3 worldPlane = Vector3.zero;
+        private Vector3 localPlane = Vector3.zero;
 
         private Vector3 lastProjectionVector;
 
@@ -34,6 +35,7 @@ namespace Assets.Scripts.InputSystem
             base.Start();
             axis = (int)axisRotation;
             worldPlane[axis] = 1.0f;
+            localPlane = worldPlane;
 
             if (transform.parent) { worldPlane = transform.parent.localToWorldMatrix.MultiplyVector(worldPlane).normalized; }
 
@@ -42,6 +44,7 @@ namespace Assets.Scripts.InputSystem
             outValue = Mathf.Clamp(outValue, minValue, maxValue);
 
             Refresh();
+            startSignal = signal;
         }
 
         /// <summary>
@@ -57,7 +60,7 @@ namespace Assets.Scripts.InputSystem
         /// </summary>
         protected override void UpdateObjectTrasform()
         {
-            transform.localRotation = startRotation * Quaternion.AngleAxis(outValue, worldPlane);
+            transform.localRotation = startRotation * Quaternion.AngleAxis(outValue, localPlane);
         }
 
         public override void InteractableBegin(Vector3 input)

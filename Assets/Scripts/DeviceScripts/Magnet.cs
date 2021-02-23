@@ -12,6 +12,7 @@ namespace Assets.Scripts.DeviceScripts
         [SerializeField] private LayerMask magnetMask;
         
         private Rigidbody rb;
+        private Transform childObject;
         private Collider[] connectColliders;
         private Coroutine magnetCor;
 
@@ -19,6 +20,8 @@ namespace Assets.Scripts.DeviceScripts
         {
             rb = GetComponent<Rigidbody>();
             if (!rb) { rb = gameObject.AddComponent<Rigidbody>(); }
+            childObject = transform.GetChild(0);
+            if (!childObject) { Debug.LogError($"Добавьте дочерний объект для {gameObject.name}"); }
         }
 
         bool connected = false;
@@ -74,7 +77,7 @@ namespace Assets.Scripts.DeviceScripts
                     var currentVector = (transform.position - controlledObject.position);
                     controlledObject.position = currentVector * ComputeVelocity(1.0f) * Time.deltaTime;
                 }
-                connectColliders = Physics.OverlapBox(transform.position, transform.localScale, transform.rotation, magnetMask);
+                connectColliders = Physics.OverlapBox(childObject.position, childObject.localScale, childObject.rotation, magnetMask);
                 if (connectColliders.Length > 0)
                 {
                     connected = true;
@@ -96,12 +99,13 @@ namespace Assets.Scripts.DeviceScripts
         {
             if (debug)
             {
+                if(!childObject) { childObject = transform.GetChild(0); }
                 Gizmos.color = Color.yellow;
                 var magneticFieldPos = transform.position;
                 magneticFieldPos[1] = transform.position.y - workRadius;
                 Gizmos.DrawWireSphere(magneticFieldPos, workRadius);
                 Gizmos.color = Color.red;
-                Gizmos.DrawWireCube(transform.position, transform.localScale*2);
+                Gizmos.DrawWireCube(childObject.position, childObject.localScale * 2);
             }
         }
     }

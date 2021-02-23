@@ -89,6 +89,11 @@ namespace Assets.Scripts.InputSystem
             lastButtonPosition = input;
         }
 
+        public void ForceDisable()
+        {
+
+        }
+
         protected override IEnumerator ToStartState()
         {
             while ((maxValue + outValue) < -.01f)  
