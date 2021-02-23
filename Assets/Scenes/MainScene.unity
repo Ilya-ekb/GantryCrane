@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8345211bd55c7b42bc542bc76a0b299, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  connectOnStart: 0
+  connectOnStart: 1
   nodes:
   - Name: "\u041A\u043D\u043E\u043F\u043A\u0430 \u0432\u043A\u043B\u044E\u0447\u0435\u043D\u0438\u0435
       \u043F\u0438\u0442\u0430\u043D\u0438\u044F"
@@ -2414,7 +2414,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlledObject: {fileID: 0}
-  devicePower: 1000
+  devicePower: 5000
   maxSpeed: 10000
   debug: 1
   workRadius: 3
@@ -2453,7 +2453,7 @@ Rigidbody:
   m_GameObject: {fileID: 1203354059}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 1
+  m_Drag: 0.9
   m_AngularDrag: 1
   m_UseGravity: 1
   m_IsKinematic: 0

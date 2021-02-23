@@ -66,7 +66,7 @@ namespace Assets.Scripts.DeviceScripts
         //Процесс примагничивания
         private IEnumerator Magneting()
         {
-            while (!connected)
+            while (true)
             {
                 var magneticFieldPos = transform.position;
                 magneticFieldPos[1] = transform.position.y - workRadius;
@@ -74,8 +74,11 @@ namespace Assets.Scripts.DeviceScripts
                 foreach (var collider in colliders)
                 {
                     controlledObject = collider.gameObject.GetComponent<MagnetedObject>();
-                    var currentVector = (transform.position - controlledObject.position);
-                    controlledObject.position = currentVector * ComputeVelocity(1.0f) * Time.deltaTime;
+                    if (controlledObject)
+                    {
+                        var currentVector = (transform.position - controlledObject.position);
+                        controlledObject.position = currentVector * ComputeVelocity(1.0f) * Time.deltaTime;
+                    }
                 }
                 connectColliders = Physics.OverlapBox(childObject.position, childObject.localScale, childObject.rotation, magnetMask);
                 if (connectColliders.Length > 0)
@@ -89,7 +92,6 @@ namespace Assets.Scripts.DeviceScripts
                             controlledObject.Connected(transform);
                         }
                     }
-                    magnetCor = null;
                 }
                 yield return null;
             }
