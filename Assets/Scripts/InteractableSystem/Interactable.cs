@@ -1,9 +1,8 @@
 ﻿using System.Collections;
-
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Assets.Scripts.InputSystem
+namespace Assets.Scripts.InteractableSystem
 {
     public abstract class Interactable : MonoBehaviour
     {

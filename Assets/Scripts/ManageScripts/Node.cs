@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.DeviceScripts;
-using Assets.Scripts.InputSystem;
+using Assets.Scripts.InteractableSystem;
 using System;
 using UnityEngine;
 

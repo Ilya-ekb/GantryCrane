@@ -1,6 +1,4 @@
-﻿using Assets.Scripts.InputSystem;
-
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TestScript : MonoBehaviour
 {

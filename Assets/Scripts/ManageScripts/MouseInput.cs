@@ -1,18 +1,18 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.InteractableSystem;
+using Assets.Scripts.ManageScripts;
+using UnityEngine;
 
-namespace Assets.Scripts.InputSystem
+namespace Assets.Scripts.ManageScripts
 {
-    public class PlayerInput : MonoBehaviour, ISystemInput
+    public class MouseInput : SystemInput
     {
         private Collider[] colliders;
         [SerializeField] private LayerMask interactableMask;
         [SerializeField] private float interactableRadius;
         [SerializeField] private bool debug;
-        private Interactable attachedObject = null;
         private float distance;
 
-
-        public void OnAttach()
+        public override void OnAttach()
         {
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit raycastHit, 100))
             {
@@ -28,12 +28,9 @@ namespace Assets.Scripts.InputSystem
             }
         }
 
-        public void OnAttachedUpdate()
-        {
-            attachedObject?.InteractableUpdate(Camera.main.ScreenPointToRay(Input.mousePosition).GetPoint(distance));
-        }
+        public override void OnAttachedUpdate() => attachedObject?.InteractableUpdate(Camera.main.ScreenPointToRay(Input.mousePosition).GetPoint(distance));
 
-        public void OnDetach()
+        public override void OnDetach()
         {
             attachedObject?.InteractableEnd();
             attachedObject = null;
@@ -85,22 +82,4 @@ namespace Assets.Scripts.InputSystem
             return nearestColl;
         }
     }
-}
-
-public interface ISystemInput
-{
-    /// <summary>
-    /// Начало взаимодействия с предметом
-    /// </summary>
-    void OnAttach();
-
-    /// <summary>
-    /// Взаимодействие с предметом
-    /// </summary>
-    void OnAttachedUpdate();
-
-    /// <summary>
-    /// Завершение взаимодействия с предметом
-    /// </summary>
-    void OnDetach();
 }

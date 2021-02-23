@@ -1,9 +1,7 @@
-﻿
-using System.Collections;
-
+﻿using System.Collections;
 using UnityEngine;
 
-namespace Assets.Scripts.InputSystem
+namespace Assets.Scripts.InteractableSystem
 {
     public class ButtonDrive : Interactable
     {

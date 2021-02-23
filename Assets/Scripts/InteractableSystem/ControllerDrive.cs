@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 
-namespace Assets.Scripts.InputSystem
+namespace Assets.Scripts.InteractableSystem
 {
     public class ControllerDrive : Interactable
     {
