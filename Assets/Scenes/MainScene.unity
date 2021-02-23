@@ -150,6 +150,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1665613119}
+  - {fileID: 312247558}
   m_Father: {fileID: 803679538}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -581,14 +582,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 312247557}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.2350225, y: -0.64040685, z: 0}
-  m_LocalScale: {x: 4.674426, y: 4.6744256, z: 4.6744266}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 320430562}
   - {fileID: 1377618728}
   - {fileID: 1242245212}
   - {fileID: 1899224730}
-  m_Father: {fileID: 1665613119}
+  m_Father: {fileID: 89183038}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &312247559
@@ -659,7 +660,7 @@ PrefabInstance:
     - target: {fileID: 5126191319377865357, guid: 26794487e6bfffb4ebd2fa21898c15ab,
         type: 3}
       propertyPath: m_Name
-      value: ButtonMagnet (1)
+      value: ButtonPower
       objectReference: {fileID: 0}
     - target: {fileID: 5126191319377865358, guid: 26794487e6bfffb4ebd2fa21898c15ab,
         type: 3}
