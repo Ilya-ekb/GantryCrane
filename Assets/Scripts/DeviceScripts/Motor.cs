@@ -25,7 +25,7 @@ namespace Assets.Scripts.DeviceScripts
         {
                 if (controlledObject)
                 {
-                    var deltaTime = !reverse ? Time.deltaTime : -Time.deltaTime;
+                    var deltaTime = !reverse ? Time.fixedDeltaTime : -Time.fixedDeltaTime;
                     controlledObject.position += currentVector * ComputeVelocity(signal) * deltaTime;
                     controlledObject.position = AdjPosition(controlledObject.position, axis, adjPoint0, adjPoint1);
                 }

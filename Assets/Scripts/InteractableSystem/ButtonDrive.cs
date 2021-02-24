@@ -1,9 +1,7 @@
-﻿
-using System.Collections;
-
+﻿using System.Collections;
 using UnityEngine;
 
-namespace Assets.Scripts.InputSystem
+namespace Assets.Scripts.InteractableSystem
 {
     public class ButtonDrive : Interactable
     {
@@ -87,11 +85,6 @@ namespace Assets.Scripts.InputSystem
         {
             base.InteractableBegin(input);
             lastButtonPosition = input;
-        }
-
-        public void ForceDisable()
-        {
-
         }
 
         protected override IEnumerator ToStartState()
