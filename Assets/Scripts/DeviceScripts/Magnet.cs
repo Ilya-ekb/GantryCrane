@@ -77,7 +77,7 @@ namespace Assets.Scripts.DeviceScripts
                     if (controlledObject)
                     {
                         var currentVector = (transform.position - controlledObject.position);
-                        controlledObject.position = currentVector * ComputeVelocity(1.0f) * Time.deltaTime;
+                        controlledObject.position = currentVector * ComputeVelocity(1.0f) * Time.fixedDeltaTime;
                     }
                 }
                 connectColliders = Physics.OverlapBox(childObject.position, childObject.localScale, childObject.rotation, magnetMask);
