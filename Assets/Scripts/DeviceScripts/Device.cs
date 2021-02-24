@@ -4,7 +4,7 @@ namespace Assets.Scripts.DeviceScripts
 {
     public abstract class Device  : MonoBehaviour
     {
-        private void Start()
+        protected virtual void Start()
         {
             InitialSettings();
         }

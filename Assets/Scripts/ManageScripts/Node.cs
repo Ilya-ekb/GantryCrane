@@ -56,7 +56,7 @@ namespace Assets.Scripts.ManageScripts
         void Connect();
 
         /// <summary>
-        /// Отключение устройства узла от контроллера узла
+        /// Отключение устройств узла от контроллеров узла
         /// </summary>
         void Disconnect();
     }
