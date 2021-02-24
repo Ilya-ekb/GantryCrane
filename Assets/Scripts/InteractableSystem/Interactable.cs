@@ -10,6 +10,7 @@ namespace Assets.Scripts.InteractableSystem
         /// Управляющийся сигнал
         /// </summary>
         public virtual float Signal => signal;
+        public virtual float OutValue => outValue;
 
         [SerializeField] protected Collider childCollider;
 
