@@ -1775,6 +1775,7 @@ GameObject:
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
+  - component: {fileID: 963194231}
   - component: {fileID: 963194230}
   m_Layer: 0
   m_Name: Main Camera
@@ -1874,23 +1875,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1ff2ef1897eff240a01deb9a18e22a7, type: 3}
+  m_Script: {fileID: 11500000, guid: 0140621772405384ab051877de405f74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attachedObject: {fileID: 0}
-  ControllerFB: {fileID: 0}
-  forward: 0
-  back: 0
-  ControllerLR: {fileID: 0}
-  left: 0
-  right: 0
-  ControllerUD: {fileID: 0}
-  up: 0
-  down: 0
-  ButtonMagner: {fileID: 0}
-  magnet: 0
-  ButtonPower: {fileID: 1665613120}
-  power: 0
+  interactableMask:
+    serializedVersion: 2
+    m_Bits: 0
+  KeyCode: 32
+  interactable: {fileID: 1899224731}
+--- !u!114 &963194231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0140621772405384ab051877de405f74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactableMask:
+    serializedVersion: 2
+    m_Bits: 0
+  KeyCode: 102
+  interactable: {fileID: 1665613120}
 --- !u!1 &996520887
 GameObject:
   m_ObjectHideFlags: 0

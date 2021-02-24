@@ -72,10 +72,10 @@ namespace Assets.Scripts.InteractableSystem
             {
                 if(delta > limitDelta)
                 {
-                    var cross = Vector3.Cross(lastButtonPosition.normalized, inputTransform.normalized);
+                    var cross = Vector3.Cross(inputTransform.normalized, lastButtonPosition.normalized);
                     var dot = Vector3.Dot(Vector3.right, cross);
                     if (dot < 0) { delta = -delta; }
-                    outValue = Mathf.Clamp(outValue + delta, minValue, maxValue);
+                    outValue = Mathf.Clamp(outValue - delta, minValue, maxValue);
                 }
             }
             lastButtonPosition = inputTransform;
